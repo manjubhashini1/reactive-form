@@ -1,0 +1,90 @@
+<p>task-form works!</p>
+<div class="main-container">
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="form-container">
+  <label>
+    Title:
+    <div class="input-area">
+    <input formControlName = "title" />
+    <span *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
+      Title is required
+    </span>
+    </div>
+  </label>
+
+   <label>
+    Description:
+     <div class="input-area">
+    <textarea formControlName="description"></textarea>
+    </div>
+  </label>
+
+   <label>
+    Due Date:
+     <div class="input-area"><input type="date" formControlName="dueDate" />
+    <span *ngIf="taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched">
+      Due date is required.
+    </span>
+    </div>
+  </label>
+
+  <label>
+    Priority:
+     <div class="input-area">
+    <select formControlName="priority">
+      <option *ngFor="let p of priorities" [value]="p">{{ p }}</option>
+    </select>
+  </div>
+  </label>
+
+  <label>
+    Email:
+     <div class="input-area">
+    <input formControlName="email" type="email" />
+    <span *ngIf="taskForm.get('email')?.hasError('required') && taskForm.get('email')?.touched">
+      <b>Email is required</b>
+    </span>
+    <span *ngIf="taskForm.get('email')?.hasError('email') && taskForm.get('email')?.touched">
+      Invalid format
+    </span>
+    <span *ngIf="taskForm.get('email')?.hasError('invalidDomain') && taskForm.get('email')?.touched">
+      Email must end with gmail.com
+    </span>
+    </div>
+  </label>
+
+  <label>
+    Phone:
+     <div class="input-area">
+    <input formControlName="phone" type="text"/>
+    <span *ngIf="taskForm.get('phone')?.hasError('invalidPhone') && taskForm.get('phone')?.touched">
+      Invalid phone format
+    </span>
+    </div>
+  </label>
+
+  <button type="submit">Create Task</button>
+</form>
+<div *ngIf="showSubmitData">
+  {{submittedData | json}}
+</div>
+<!-- SHOW STUDENTS -->
+ <div>
+  <ul>
+    <li *ngFor="let student of students" (click)="onSelect(student)">
+      <span>{{student.id}} {{student.name}}</span>
+    </li>
+  </ul>
+ </div>
+<div class="http-call">
+  {{httpResponse | json }}
+  <ul>
+    <li *ngFor="let res of httpResponse" (click)="onSelect(res)">
+      {{res.title}} {{res.userId}}
+    </li>
+  </ul>
+  <div *ngIf = "selectedUser">
+      <h2>{{selectedUser.id}} i m selected</h2>
+      <input placeholder="name: {{selectedUser.id}}"/>
+  </div>
+</div>
+</div>
